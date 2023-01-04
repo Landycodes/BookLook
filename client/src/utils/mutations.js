@@ -33,18 +33,38 @@ export const ADD_USER = gql`
   }
 `;
 
-// export const SAVE_BOOK = gql`
-//     mutation saveBook() {
-//         saveBook() {
+export const SAVE_BOOK = gql`
+  mutation saveBook($input: SaveBook!) {
+    saveBook(input: $input) {
+      _id
+      username
+      bookCount
+      savedBooks {
+        _id
+        title
+        description
+        link
+        image
+        authors
+      }
+    }
+  }
+`;
 
-//         }
-//     }
-// `;
-
-// export const REMOVE_BOOK = gql`
-//     mutation deleteBook() {
-//         deleteBook() {
-
-//         }
-//     }
-// `;
+export const REMOVE_BOOK = gql`
+  mutation deleteBook($bookId: ID!) {
+    deleteBook(bookId: $bookId) {
+      _id
+      username
+      bookCount
+      savedBooks {
+        _id
+        title
+        description
+        link
+        image
+        authors
+      }
+    }
+  }
+`;
