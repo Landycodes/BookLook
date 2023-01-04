@@ -33,21 +33,19 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
-    login: async ({ body }, res) => {
-      const user = await User.findOne({
-        $or: [{ username: body.username }, { email: body.email }],
-      });
+    login: async (parent, { email, password }) => {
+      const user = await User.findOne({ email });
       if (!user) {
         throw new AuthenticationError("Can't find this user");
       }
 
-      const correctPw = await user.isCorrectPassword(body.password);
+      const correctPw = await user.isCorrectPassword(password);
 
       if (!correctPw) {
         throw new AuthenticationError("Wrong password!");
       }
       const token = signToken(user);
-      res.json({ token, user });
+      return { token, user };
     },
     saveBook: async ({ user, body }, res) => {
       console.log(user);
